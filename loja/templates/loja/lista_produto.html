@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Produtos{% endblock %}
+
+{% block content %}
+<h2>Produtos Disponíveis</h2>
+<ul>
+  {% for produto in produtos %}
+    <li>
+      <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a> - R$ {{ produto.preco }}
+    </li>
+  {% empty %}
+    <li>Não há produtos disponíveis no momento.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

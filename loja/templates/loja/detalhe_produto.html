@@ -1,0 +1,60 @@
+{% extends "base.html" %} 
+
+{% block title %}{{ produto.nome }}{% endblock %} 
+
+{%block content %}
+<style>
+  .product-detail {
+    display: flex;
+    gap: 30px;
+  }
+  .product-image {
+    flex: 1;
+    max-width: 400px;
+    text-align: center;
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .product-info {
+    flex: 2;
+  }
+  .product-price {
+    font-size: 2em;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+  .add-to-cart-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .add-to-cart-btn:hover {
+    background-color: #218838;
+  }
+</style>
+
+<div class="product-detail">
+  <div class="product-image">
+    <!-- Em um site real, aqui iria uma tag <img> -->
+    [Imagem do {{ produto.nome }}]
+  </div>
+  <div class="product-info">
+    <h1>{{ produto.nome }}</h1>
+    <p class="product-price">R$ {{ produto.preco }}</p>
+    <p>{{ produto.descricao }}</p>
+    <p><strong>Categoria:</strong> {{ produto.categoria.nome }}</p>
+    <p><strong>Em estoque:</strong> {{ produto.estoque }} unidades</p>
+    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+  </div>
+</div>
+<br />
+<a href="{% url 'lista_produtos' %}"
+  >&laquo; Voltar para a lista de produtos</a
+>
+{% endblock %}
