@@ -12,13 +12,9 @@ def pagina_inicial(request):
 def ver_produto_por_slug(request, produto_slug):
     # Use produto_slug in the response
     return HttpResponse(f"<h1> Produto </h1> <p> {produto_slug} </p>")
-    return HttpResponse("<h1> Produto </h1> <p> {produto_slug} </p>")
 
 def base(request):
     return render(request, 'base.html')
-
-def index(request):
-    return render(request, 'loja/index.html')
 
 
 def lista_produtos_view(request):
