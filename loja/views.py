@@ -19,10 +19,14 @@ def base(request):
 
 def lista_produtos_view(request):
     produtos_disponiveis = Produto.objects.filter(estoque__gt=0)
-    contexto = {'produtos': produtos_disponiveis}
-    return render(request, 'loja/lista_produto.html', contexto)
+    return render(request, 'loja/lista_produto.html',{'PRODUTOS_DISPONIVEIS_LISTA': produtos_disponiveis})
 
 def detalhe_produto_view(request, produto_id):
-        produto = get_object_or_404(Produto, id=produto_id)
-        contexto = { 'produto': produto }
-        return render(request, 'loja/detalhe_produto.html', contexto)
+    produto = get_object_or_404(Produto, id=produto_id)
+    return render(request, 'loja/detalhe_produto.html', {'produto': produto })
+
+def sobre_view(request):
+    return render(request, 'loja/sobre.html')
+
+def contato_view(request):
+    return render(request, 'loja/contato.html')

@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Produtos Disponíveis</h2>
 <ul>
-  {% for produto in produtos %}
+  {% for produto in PRODUTOS_DISPONIVEIS_LISTA %}
     <li>
       <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a> - R$ {{ produto.preco }}
     </li>

@@ -63,11 +63,11 @@
         <h1>Minha Loja Online</h1>
       </header>
       <nav>
-        {# A tag  usa o app_name:'nome_da_url' para encontrar a URL
-        correta #}
+        <!-- A tag  usa o app_name:'nome_da_url' para encontrar a URL
+        correta --> 
         <a href="{% url 'lista_produtos' %}">Produtos</a>
-        <a href="#">Sobre</a>
-        <a href="#">Contato</a>
+        <a href="{% url 'sobre' %}">Sobre</a>
+        <a href="{% url 'contato' %}">Contato</a>
       </nav>
       <main>{% block content %} <h1>  {% endblock %}</main>
       <footer>
