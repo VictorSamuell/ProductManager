@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Minha Loja Online{% endblock %}</title>
+    
+    
     <style>
       body {
         font-family: sans-serif;
@@ -55,7 +57,54 @@
         border-radius: 0 0 8px 8px;
         font-size: 0.9em;
       }
+      ul {
+        padding: 20px;
+        margin: 25px;
+        display: flex;
+        flex-wrap: wrap;
+
+          
+    list-style-type: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+    unicode-bidi: isolate;
+      }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #f0f4ff, #ffffff);
+    border: 1px solid #d0d7e2;
+    border-left: 5px solid #007bff;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    list-style: none;
+    width: 450px;
+    margin-left: 10px;
+    transition: box-shadow 0.3s, transform 0.2s;
+    
+  }
+
+  li:hover {
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  li a {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
     </style>
+    
   </head>
   <body>
     <div class="container">
@@ -65,6 +114,7 @@
       <nav>
         <!-- A tag  usa o app_name:'nome_da_url' para encontrar a URL
         correta --> 
+        <a href="{% url 'produtos_caros' %}"> Muitos Produtos Caros </a>
         <a href="{% url 'lista_produtos' %}">Produtos</a>
         <a href="{% url 'sobre' %}">Sobre</a>
         <a href="{% url 'contato' %}">Contato</a>

@@ -3,11 +3,19 @@
 {% block title %}Lista de Produtos{% endblock %}
 
 {% block content %}
+<style>
+  
+</style>
+
 <h2>Produtos Disponíveis</h2>
 <ul>
   {% for produto in PRODUTOS_DISPONIVEIS_LISTA %}
     <li>
-      <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a> - R$ {{ produto.preco }}
+      <div class="produto-item">
+        
+        <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a>
+      </div>
+      <span class="produto-preco">R$ {{ produto.preco }}</span>
     </li>
   {% empty %}
     <li>Não há produtos disponíveis no momento.</li>
