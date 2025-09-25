@@ -29,6 +29,9 @@ def produtos_caros_view(request):
     muitos_produtos_caros = Produto.objects.filter(estoque__gt=5 , preco__gt=500)
     return render(request, 'loja/produtos_caros.html',{'PRODUTOS_CAROS': muitos_produtos_caros})
 
+def detalhe_produto_caro_view(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    return render(request, 'loja/detalhe_produto_caro.html', {'produto': produto })
 
 def sobre_view(request):
     return render(request, 'loja/sobre.html')
