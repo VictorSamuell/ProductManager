@@ -45,10 +45,16 @@ class Pedido(models.Model):
 
 # Tabela 5: ItemPedido (Tabela de Junção/Pivô)
 class ItemPedido(models.Model):
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='itens')
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='ipedens')
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.PositiveIntegerField()
     preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+    
+
+    def save(self,*args,**kwargs):
+        if not self.preco_unitario and self.produto and self.produto.preco:
+            self.preco_unitario = self.produto.preco
+        super().save(*args,**kwargs)
 
     def __str__(self):
-        return f"{self.quantidade}x {self.produto.nome} no Pedido {self.pedido.id}"
+        return f"{self.quantidade} x {self.produto.nome} no Pedido {self.pedido.id}"
