@@ -26,6 +26,11 @@ class Produto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='produtos')
     estoque = models.PositiveIntegerField(default=0)
 
+
+    def valor_total_em_estoque(self):
+        return self.preco * self.estoque
+    valor_total_em_estoque.short_description = 'Valor total em estoque'
+
     def __str__(self):
         return self.nome
 

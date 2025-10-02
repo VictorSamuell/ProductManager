@@ -16,16 +16,20 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display=('nome','descricao','preco', 'categoria', 'estoque')
-    
-    list_filter = ('categoria','estoque')
-    
-    search_fields = ('nome','preco')
-    
-    
+    list_display = ('nome', 'descricao', 'preco', 'categoria', 'estoque')
+    list_filter = ('categoria', 'estoque')
+    search_fields = ('nome', 'preco')
     actions = [zerarEstoque]
-    
-   
+
+    fieldsets = (
+        ('Dados Principais', {
+            'fields': ('nome', 'categoria', 'descricao')
+        }),
+        ('Financeiro e Estoque', {
+            'fields': ('preco', 'estoque', 'valor_total_em_estoque'),
+        }),
+    )
+    readonly_fields = ('valor_total_em_estoque',)
 
 
     
