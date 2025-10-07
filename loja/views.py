@@ -39,3 +39,12 @@ def sobre_view(request):
 def contato_view(request):
     return render(request, 'loja/contato.html')
 
+
+def produto_list_fbv(request):
+    produtos_em_estoque = Produto.objects.filter(estoque__gt=0).order_by('nome')
+    contexto = {
+        'produtos': produtos_em_estoque,
+        'titulo_da_pagina': 'Nossos Produtos Disponiveis'
+    }
+
+    return render(request, 'loja/produto_list.html', contexto)

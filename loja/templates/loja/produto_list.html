@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} {{ titulo_da_pagina }} {% endblock %}
+
+{% block content %}
+
+<h1>{{ titulo_da_pagina }}</h1>
+
+{% for produto in produtos %}
+    <article>
+        <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a>
+        <p>Preço: R$ {{ produto.preco }}</p>
+        <p>Categoria: {{produto.categoria.nome}}</p>
+        <p>Em estoque: {{ produto.estoque }} unidades</p>
+
+        <p> {{ produto.descricao|truncatewords:20 }} </p>
+    </article>
+    <hr>
+
+{% empty %}
+    <p>Nenhum produto disponível no momento.</p>
+
+{% endfor %}
+
+{% endblock %}
