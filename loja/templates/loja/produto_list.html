@@ -8,7 +8,7 @@
 
 {% for produto in produtos %}
     <article>
-        <a href="{% url 'detalhe_produto' produto.id %}">{{ produto.nome }}</a>
+        <a href="{% url 'produto_detail' produto.id %}">{{ produto.nome }}</a>
         <p>Preço: R$ {{ produto.preco }}</p>
         <p>Categoria: {{produto.categoria.nome}}</p>
         <p>Em estoque: {{ produto.estoque }} unidades</p>

@@ -1,0 +1,103 @@
+{% extends "base.html" %} 
+
+{% block title %}{{ produto.nome }}{% endblock %} 
+
+{%block content %}
+<style>
+  .product-detail {
+    display: flex;
+    gap: 30px;
+  }
+  .product-image {
+    flex: 1;
+    max-width: 400px;
+    text-align: center;
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .product-info {
+    flex: 2;
+  }
+  .product-price {
+    font-size: 2em;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+
+  .add-to-cart-btn {
+  height: 2.8em;
+  width: 9em;
+  background: transparent;
+  -webkit-animation: jello-horizontal 0.9s both;
+  animation: jello-horizontal 0.9s both;
+  border: 2px solid #016dd9;
+  outline: none;
+  color: #016dd9;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.add-to-cart-btn:hover {
+  background: #016dd9;
+  color: #ffffff;
+  animation: squeeze3124 0.9s both;
+}
+
+@keyframes squeeze3124 {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+  
+</style>
+
+<div class="product-detail">
+  <div class="product-image">
+    <!-- Em um site real, aqui iria uma tag <img> -->
+    [Imagem do {{ produto.nome }}]
+  </div>
+  <div class="product-info">
+    <h1>{{ produto.nome }}</h1>
+    <p class="product-price">R$ {{ produto.preco }}</p>
+    <p>{{ produto.descricao }}</p>
+    <p><strong>Categoria:</strong> {{ produto.categoria.nome }}</p>
+    <p><strong>Em estoque:</strong> {{ produto.estoque }} unidades</p>
+    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+  </div>
+</div>
+<br />
+<a href="{% url 'lista_produtos' %}">&laquo; Voltar para a lista de produtos </a>
+{% endblock %}

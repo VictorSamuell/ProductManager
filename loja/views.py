@@ -1,7 +1,7 @@
 from django.shortcuts import render , get_object_or_404
 from django.http import HttpResponse
 from .models import Produto
-
+from django.views.generic import DetailView, ListView
 # Create your views here.
 
 def pagina_inicial(request):
@@ -17,27 +17,40 @@ def base(request):
     return render(request, 'base.html')
 
 
+
+
 def lista_produtos_view(request):
     produtos_disponiveis = Produto.objects.filter(estoque__gt=0).order_by("preco")
     return render(request, 'loja/lista_produto.html',{'PRODUTOS_DISPONIVEIS_LISTA': produtos_disponiveis})
+
+
 
 def detalhe_produto_view(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
     return render(request, 'loja/detalhe_produto.html', {'produto': produto })
 
+
+
 def produtos_caros_view(request):
     muitos_produtos_caros = Produto.objects.filter(estoque__gt=5 , preco__gt=500)
     return render(request, 'loja/produtos_caros.html',{'PRODUTOS_CAROS': muitos_produtos_caros})
 
+
+
 def detalhe_produto_caro_view(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
     return render(request, 'loja/detalhe_produto_caro.html', {'produto': produto })
+
+
 
 def sobre_view(request):
     return render(request, 'loja/sobre.html')
 
 def contato_view(request):
     return render(request, 'loja/contato.html')
+
+
+
 
 
 def produto_list_fbv(request):
@@ -48,3 +61,18 @@ def produto_list_fbv(request):
     }
 
     return render(request, 'loja/produto_list.html', contexto)
+
+def ProdutoListView(ListView):
+    model = Produto
+    template_name = 'loja/produto_list.html'
+    context_object_name = 'produtos'
+
+    def get_queryset(self):
+        return Produto.objects.filter(estoque__gt=0).order_by('nome')
+
+class ProdutoDetailView(DetailView):
+    model = Produto
+    template_name = 'loja/detail_product.html'
+    context_object_name = 'produto'
+
+   
