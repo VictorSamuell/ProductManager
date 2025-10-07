@@ -6,7 +6,7 @@ from .models import Produto
 
 def pagina_inicial(request):
     # request is not used, but required by Django view signature
-    return HttpResponse("<h1> WELCOME TO THE STORE! </h1> <p> É nois caralho </p>")
+    return render(request, 'base.html')
 
 
 def ver_produto_por_slug(request, produto_slug):
