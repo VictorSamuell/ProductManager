@@ -6,11 +6,8 @@ urlpatterns = [
 
     #
 
-    path("", views.pagina_inicial, name="pagina_inicial"),
+    path("", views.base, name="base"),
 
-    # base.html
-
-    path("base/", views.base, name="base"),
 
     # lista de produtos (CBV) — mantém nome esperado 'produto_list'
     path("produtos/", ProdutoListView.as_view(), name="produto_list"),
@@ -47,4 +44,7 @@ urlpatterns = [
     path('produto/<int:pk>/', ProdutoDetailView.as_view(), name='produto_detail'),
     path('produto/<int:pk>/editar/', ProdutoUpdateView.as_view(), name='produto_update'),
     path('produto/<int:pk>/apagar/', ProdutoDeleteView.as_view(), name='produto_delete'),
+    # registro é servido em 'contas/registro/' (definido em config.urls) — evitar duplicação de nomes
+
+    
 ]

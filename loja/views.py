@@ -4,6 +4,7 @@ from .models import Produto , Cliente
 from django.views.generic import DetailView, ListView , CreateView , UpdateView , DeleteView
 from .forms import ProdutoForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 # Create your views here.
 
@@ -101,7 +102,7 @@ class ProdutoDeleteView(DeleteView):
     template_name = 'loja/produto_confirm_delete.html'
     success_url = reverse_lazy('produto_list')
 
-# class RegistroView(CreateView):
-#     form_class = UserCreationForm
-#     success_url = reverse_lazy('login')
-#     template_name = 'registration/registro.html'
+class RegistroView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/registro.html'

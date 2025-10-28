@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+{% block title %}Login{% endblock %}
+{% block content %}
+<style>
+  body {
+    background-color: #084e01ff;
+  }
+  header {
+    background-color: #11b602ff;
+  }
+  nav {
+    background-color: #084e01ff;
+  }
+  .back {
+    background-color: #084e01ff;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+  }
+  .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+</style>
+
+<div class="form">
+    <h2>Login</h2>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="back" type="submit">Entrar</button>
+    </form>
+  </div>
+  
+{% endblock %}

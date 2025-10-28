@@ -18,9 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from loja import views
+from loja.views import RegistroView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('loja/', include('loja.urls')),
+    path('contas/registro/', views.RegistroView.as_view(), name='register'),
     path('contas/', include('django.contrib.auth.urls')),
 ]
