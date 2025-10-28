@@ -98,6 +98,15 @@
     <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
   </div>
 </div>
+
+
+
+        <a href="{% url 'produto_update' pk=produto.pk %}">Editar Produto</a>
+        <a href="{% url 'produto_delete' pk=produto.pk %}">Apagar Produto</a>
+    
+
+
+
 <br />
-<a href="{% url 'lista_produtos' %}">&laquo; Voltar para a lista de produtos </a>
+<a href="{% url 'produto_list' %}">&laquo; Voltar para a lista de produtos </a>
 {% endblock %}

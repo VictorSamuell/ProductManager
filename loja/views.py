@@ -1,57 +1,42 @@
 from django.shortcuts import render , get_object_or_404
 from django.http import HttpResponse
-from .models import Produto
-from django.views.generic import DetailView, ListView
+from .models import Produto , Cliente
+from django.views.generic import DetailView, ListView , CreateView , UpdateView , DeleteView
+from .forms import ProdutoForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 # Create your views here.
 
 def pagina_inicial(request):
     # request is not used, but required by Django view signature
     return render(request, 'base.html')
 
-
-def ver_produto_por_slug(request, produto_slug):
-    # Use produto_slug in the response
-    return HttpResponse(f"<h1> Produto </h1> <p> {produto_slug} </p>")
-
 def base(request):
     return render(request, 'base.html')
-
-
-
 
 def lista_produtos_view(request):
     produtos_disponiveis = Produto.objects.filter(estoque__gt=0).order_by("preco")
     return render(request, 'loja/lista_produto.html',{'PRODUTOS_DISPONIVEIS_LISTA': produtos_disponiveis})
 
-
-
-def detalhe_produto_view(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
+def detalhe_produto_view(request, pk):
+    # aceitar 'pk' para compatibilidade com reverse() que usa kwargs 'pk'
+    produto = get_object_or_404(Produto, id=pk)
     return render(request, 'loja/detalhe_produto.html', {'produto': produto })
-
-
 
 def produtos_caros_view(request):
     muitos_produtos_caros = Produto.objects.filter(estoque__gt=5 , preco__gt=500)
     return render(request, 'loja/produtos_caros.html',{'PRODUTOS_CAROS': muitos_produtos_caros})
 
-
-
-def detalhe_produto_caro_view(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
+def detalhe_produto_caro_view(request, pk):
+    # aceitar 'pk' para compatibilidade com reverse() que usa kwargs 'pk'
+    produto = get_object_or_404(Produto, id=pk)
     return render(request, 'loja/detalhe_produto_caro.html', {'produto': produto })
-
-
 
 def sobre_view(request):
     return render(request, 'loja/sobre.html')
 
 def contato_view(request):
     return render(request, 'loja/contato.html')
-
-
-
-
 
 def produto_list_fbv(request):
     produtos_em_estoque = Produto.objects.filter(estoque__gt=0).order_by('nome')
@@ -70,9 +55,53 @@ def ProdutoListView(ListView):
     def get_queryset(self):
         return Produto.objects.filter(estoque__gt=0).order_by('nome')
 
+
+def clienteList(request):
+    clientes = Cliente.objects.all()
+    contexto = {
+        'clientes': clientes,
+        'titulo_da_pagina': 'Nossos Clientes Disponiveis'
+    }
+
+    return render(request, 'loja/clienteList.html', contexto)
+
+
+class ClienteDetailView(DetailView):
+    model = Cliente
+    template_name = 'loja/cliente_detail.html'
+    context_object_name = 'cliente'
+
+class ProdutoListView(ListView):
+    model = Produto
+    template_name = 'loja/produto_list.html'
+    context_object_name = 'produtos'
+    # Query para mostrar apenas produtos com estoque, ordenados por nome
+    queryset = Produto.objects.filter(estoque__gt=0).order_by('nome')
+
 class ProdutoDetailView(DetailView):
     model = Produto
-    template_name = 'loja/detail_product.html'
+    template_name = 'loja/detalhe_produto.html'
     context_object_name = 'produto'
 
-   
+
+class ProdutoCreateView(CreateView):
+    model = Produto
+    form_class = ProdutoForm
+    template_name = 'loja/produto_form.html'
+    success_url = reverse_lazy('produto_list')
+
+class ProdutoUpdateView(UpdateView):
+    model = Produto
+    form_class = ProdutoForm
+    template_name = 'loja/produto_form.html'
+    success_url = reverse_lazy('produto_list')
+
+class ProdutoDeleteView(DeleteView):
+    model = Produto
+    template_name = 'loja/produto_confirm_delete.html'
+    success_url = reverse_lazy('produto_list')
+
+# class RegistroView(CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('login')
+#     template_name = 'registration/registro.html'

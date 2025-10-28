@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import ProdutoCreateView , ProdutoDetailView , ProdutoListView ,ProdutoUpdateView , ProdutoDeleteView
 
 urlpatterns = [
 
@@ -7,25 +8,20 @@ urlpatterns = [
 
     path("", views.pagina_inicial, name="pagina_inicial"),
 
-    #
-
-    path("produto/<slug:produto_slug>/", views.ver_produto_por_slug, name="ver_produto_por_slug"),
-
     # base.html
 
     path("base/", views.base, name="base"),
 
-    # 
+    # lista de produtos (CBV) — mantém nome esperado 'produto_list'
+    path("produtos/", ProdutoListView.as_view(), name="produto_list"),
 
-    path("produtos/", views.lista_produtos_view, name="lista_produtos"), 
-    
     # detalhe_produto.html
 
-    path("det_produtos/<int:produto_id>/", views.detalhe_produto_view, name="detalhe_produto"),
+    path("det_produtos/<int:pk>/", views.detalhe_produto_view, name="detalhe_produto"),
     
     # detalhe_produto_caro.html
 
-    path("det_produtos_caros/<int:produto_id>/", views.detalhe_produto_caro_view, name="detalhe_produto_caro"),
+    path("det_produtos_caros/<int:pk>/", views.detalhe_produto_caro_view, name="detalhe_produto_caro"),
     
     #
 
@@ -43,8 +39,12 @@ urlpatterns = [
     
     path("produto_list_fbv/", views.produto_list_fbv, name="produto_list_fbv"),
 
-    #
+    path("cliente_list/", views.clienteList, name="cliente_list"),
+    path('cliente/<int:pk>/', views.ClienteDetailView.as_view(), name='cliente_detail'),
 
-    path("produto/<int:pk>/", views.ProdutoDetailView.as_view(), name="produto_detail"),
-
+    # CRUD para Produto (CBV)
+    path('produto/novo/', ProdutoCreateView.as_view(), name='produto_create'),
+    path('produto/<int:pk>/', ProdutoDetailView.as_view(), name='produto_detail'),
+    path('produto/<int:pk>/editar/', ProdutoUpdateView.as_view(), name='produto_update'),
+    path('produto/<int:pk>/apagar/', ProdutoDeleteView.as_view(), name='produto_delete'),
 ]

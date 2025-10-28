@@ -22,4 +22,5 @@ from loja import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('loja/', include('loja.urls')),
+    path('contas/', include('django.contrib.auth.urls')),
 ]

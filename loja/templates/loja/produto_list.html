@@ -6,20 +6,60 @@
 
 <h1>{{ titulo_da_pagina }}</h1>
 
-{% for produto in produtos %}
-    <article>
-        <a href="{% url 'produto_detail' produto.id %}">{{ produto.nome }}</a>
-        <p>Preço: R$ {{ produto.preco }}</p>
-        <p>Categoria: {{produto.categoria.nome}}</p>
-        <p>Em estoque: {{ produto.estoque }} unidades</p>
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+        padding: 0;
+    }
+    .product-card {
+        background: linear-gradient(180deg,#ffffff,#fbfdff);
+        border: 1px solid #e3e8ef;
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: 0 6px 18px rgba(13,38,76,0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(13,38,76,0.08); }
+    .product-name { font-size: 1.15rem; font-weight: 700; color: #016dd9; text-decoration: none; }
+    .product-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .price { color: #007bff; font-weight:700; font-size:1.05rem; }
+    .badge { background:#e9f5ff; color:#016dd9; padding:4px 8px; border-radius:999px; font-size:0.85rem; }
+    .stock { font-size:0.95rem; }
+    .low-stock { color: #b22222; font-weight:700; }
+    .desc { color: #4b5563; font-size:0.95rem; margin-top:6px; }
+    .actions { margin-top: auto; display:flex; gap:8px; }
+    .btn { padding:8px 12px; border-radius:6px; border:1px solid transparent; cursor:pointer; text-decoration:none; font-size:0.94rem; }
+    .btn-primary { background:#016dd9; color:#fff; }
+    .btn-outline { background:transparent; color:#016dd9; border-color:#cfe6ff; }
+</style>
 
-        <p> {{ produto.descricao|truncatewords:20 }} </p>
-    </article>
-    <hr>
+{% if produtos %}
+    <div class="product-grid">
+    {% for produto in produtos %}
+        <div class="product-card">
+            <a class="product-name" href="{% url 'produto_detail' pk=produto.pk %}">{{ produto.nome }}</a>
+            <div class="product-meta">
+                <div class="price">R$ {{ produto.preco }}</div>
+                <div class="badge">{{ produto.categoria.nome }}</div>
+                <div class="stock {% if produto.estoque <= 5 %}low-stock{% endif %}">Em estoque: {{ produto.estoque }}</div>
+            </div>
+            <div class="desc">{{ produto.descricao|truncatewords:22 }}</div>
 
-{% empty %}
+            <div class="actions">
+                <a class="btn btn-primary" href="{% url 'produto_detail' pk=produto.pk %}">Ver detalhes</a>
+                <a class="btn btn-outline" href="{% url 'produto_update' pk=produto.pk %}">Editar</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
     <p>Nenhum produto disponível no momento.</p>
-
-{% endfor %}
+{% endif %}
 
 {% endblock %}
