@@ -44,6 +44,7 @@ urlpatterns = [
     path('produto/<int:pk>/', ProdutoDetailView.as_view(), name='produto_detail'),
     path('produto/<int:pk>/editar/', ProdutoUpdateView.as_view(), name='produto_update'),
     path('produto/<int:pk>/apagar/', ProdutoDeleteView.as_view(), name='produto_delete'),
+    
     # registro é servido em 'contas/registro/' (definido em config.urls) — evitar duplicação de nomes
 
     

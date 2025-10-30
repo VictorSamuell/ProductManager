@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Produto , Cliente
 from django.views.generic import DetailView, ListView , CreateView , UpdateView , DeleteView
 from .forms import ProdutoForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 # Create your views here.
@@ -85,24 +85,37 @@ class ProdutoDetailView(DetailView):
     context_object_name = 'produto'
 
 
-class ProdutoCreateView(CreateView):
+class ProdutoCreateView(LoginRequiredMixin, CreateView):
     model = Produto
     form_class = ProdutoForm
     template_name = 'loja/produto_form.html'
     success_url = reverse_lazy('produto_list')
 
-class ProdutoUpdateView(UpdateView):
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class ProdutoUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Produto
     form_class = ProdutoForm
     template_name = 'loja/produto_form.html'
     success_url = reverse_lazy('produto_list')
 
-class ProdutoDeleteView(DeleteView):
+    def test_func(self):
+        produto = self.get_object()
+        return self.request.user == produto.usuario
+
+class ProdutoDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
     model = Produto
     template_name = 'loja/produto_confirm_delete.html'
     success_url = reverse_lazy('produto_list')
+
+    def test_func(self):
+        produto = self.get_object()
+        return self.request.user == produto.usuario
 
 class RegistroView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/registro.html'
+

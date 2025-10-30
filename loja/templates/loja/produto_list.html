@@ -39,6 +39,8 @@
     .btn-outline { background:transparent; color:#016dd9; border-color:#cfe6ff; }
 </style>
 
+<a class="btn btn-outline" href="{% url 'produto_create' %}"> Criar Produto </a>
+
 {% if produtos %}
     <div class="product-grid">
     {% for produto in produtos %}
