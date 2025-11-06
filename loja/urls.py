@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProdutoCreateView , ProdutoDetailView , ProdutoListView ,ProdutoUpdateView , ProdutoDeleteView
+from .views import ProdutoCreateView , ProdutoDetailView , ProdutoListView ,ProdutoUpdateView , ProdutoDeleteView , AutorListView , AutorCreateView , AutorDeleteView , AutorDetailView , AutorUpdateView
 
 urlpatterns = [
 
@@ -11,6 +11,12 @@ urlpatterns = [
 
     # lista de produtos (CBV) — mantém nome esperado 'produto_list'
     path("produtos/", ProdutoListView.as_view(), name="produto_list"),
+
+
+    # autor list view
+
+    path("autor/", AutorListView.as_view(), name="autor_list"),
+
 
     # detalhe_produto.html
 
@@ -46,6 +52,13 @@ urlpatterns = [
     path('produto/<int:pk>/apagar/', ProdutoDeleteView.as_view(), name='produto_delete'),
     
     # registro é servido em 'contas/registro/' (definido em config.urls) — evitar duplicação de nomes
+
+    # CRUD para Autor 
+
+    path('autor/novo/', AutorCreateView.as_view(), name='autor_create'),
+    path('autor/<int:pk>/', AutorDetailView.as_view(), name='autor_detail'),
+    path('autor/<int:pk>/editar/', AutorUpdateView.as_view(), name='autor_update'),
+    path('autor/<int:pk>/apagar/', AutorDeleteView.as_view(), name='autor_delete'),
 
     
 ]

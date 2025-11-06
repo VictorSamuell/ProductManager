@@ -1,8 +1,8 @@
 from django.shortcuts import render , get_object_or_404
 from django.http import HttpResponse
-from .models import Produto , Cliente
+from .models import Produto , Cliente , Autor
 from django.views.generic import DetailView, ListView , CreateView , UpdateView , DeleteView
-from .forms import ProdutoForm
+from .forms import ProdutoForm , AutorForm
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -118,4 +118,51 @@ class RegistroView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/registro.html'
+
+
+
+# AUTOR 
+
+class AutorListView(ListView):
+    model = Autor
+    template_name = 'loja/autor_list.html'
+    context_object_name = 'autores'
+    # Query para mostrar apenas produtos com estoque, ordenados por nome
+    queryset = Autor.objects.all().order_by('nome')
+
+class AutorDetailView(DetailView):
+    model = Autor
+    template_name = 'loja/detalhe_autor.html'
+    context_object_name = 'autor'
+
+
+class AutorCreateView(LoginRequiredMixin, CreateView):
+    model = Autor
+    form_class = AutorForm
+    template_name = 'loja/autor_form.html'
+    success_url = reverse_lazy('autor_list')
+
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        return super().form_valid(form)
+
+class AutorUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
+    model = Autor
+    form_class = AutorForm
+    template_name = 'loja/autor_form.html'
+    success_url = reverse_lazy('autor_list')
+
+    def test_func(self):
+        autor = self.get_object()
+        return self.request.user == autor.usuario
+
+class AutorDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
+    model = Autor
+    template_name = 'loja/autor_confirm_delete.html'
+    success_url = reverse_lazy('autor_list')
+
+    def test_func(self):
+        autor = self.get_object()
+        return self.request.user == autor.usuario
+
 
