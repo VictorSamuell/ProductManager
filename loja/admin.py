@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Produto, Categoria, Cliente, ItemPedido, Pedido
+from django.utils.html import format_html 
 
 @admin.action(description="Zerar estoque dos produtos selecionados")
 def zerarEstoque(modeladmin, request, queryset):
@@ -16,7 +17,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'descricao', 'preco', 'categoria', 'estoque')
+    list_display = ('nome', 'descricao', 'preco', 'categoria', 'estoque', 'display_imagem_thumb')
     list_filter = ('categoria', 'estoque')
     search_fields = ('nome', 'preco')
     actions = [zerarEstoque]
@@ -30,7 +31,11 @@ class ProdutoAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = ('valor_total_em_estoque',)
-
+    @admin.display(description="Imagem")
+    def display_imagem_thumb(self, obj):
+        if obj.imagem:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.imagem.url)
+        return "(Sem Imagem)"
 
     
 @admin.register(Cliente)

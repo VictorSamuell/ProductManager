@@ -27,6 +27,8 @@ class Produto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='produtos')
     estoque = models.PositiveIntegerField(default=0)
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    imagem = models.ImageField(upload_to='produtos_img/', null=False, blank=True, help_text="Imagem de Destaque do Produto")
+
 
     def valor_total_em_estoque(self):
         return self.preco * self.estoque

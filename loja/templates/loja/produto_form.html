@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if object %}
-    <h2> Editar Produto {{ object.nome }} </h2>
-{% else %}
-    <h2> Adicionar Novo Produto </h2>
-{% endif %}
+<!-- Importa o Bootstrap direto do CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<form method="post">
-    {% csrf_token %} 
-    {{ form.as_p }}
+<div class="container mt-5">
+    {% if object %}
+        <h2 class="mb-4 text-center">Editar Produto: {{ object.nome }}</h2>
+    {% else %}
+        <h2 class="mb-4 text-center">Adicionar Novo Produto</h2>
+    {% endif %}
 
-    <button type="submit"> Guardar </button>
-</form>
+    <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light shadow-sm">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary px-4">Guardar</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

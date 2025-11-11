@@ -1,112 +1,167 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
-{% block title %}{{ produto.nome }}{% endblock %} 
+{% block title %}{{ produto.nome }}{% endblock %}
 
-{%block content %}
+{% block content %}
 <style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+  }
+
   .product-detail {
     display: flex;
-    gap: 30px;
+    flex-wrap: wrap;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    margin: 40px auto;
+    max-width: 1000px;
   }
+
   .product-image {
     flex: 1;
-    max-width: 400px;
     text-align: center;
-    background-color: #eee;
-    padding: 20px;
-    border-radius: 8px;
   }
+
+  .product-image img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .product-image img:hover {
+    transform: scale(1.05);
+  }
+
   .product-info {
-    flex: 2;
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
+
+  .product-info h1 {
+    font-size: 2.2em;
+    color: #222;
+    margin-bottom: 10px;
+  }
+
   .product-price {
-    font-size: 2em;
+    font-size: 1.8em;
     color: #007bff;
-    margin-bottom: 20px;
+    margin: 10px 0 20px;
+    font-weight: 600;
+  }
+
+  .product-info p {
+    margin: 8px 0;
+    font-size: 1.05em;
   }
 
   .add-to-cart-btn {
-  height: 2.8em;
-  width: 9em;
-  background: transparent;
-  -webkit-animation: jello-horizontal 0.9s both;
-  animation: jello-horizontal 0.9s both;
-  border: 2px solid #016dd9;
-  outline: none;
-  color: #016dd9;
-  cursor: pointer;
-  font-size: 17px;
-}
-
-.add-to-cart-btn:hover {
-  background: #016dd9;
-  color: #ffffff;
-  animation: squeeze3124 0.9s both;
-}
-
-@keyframes squeeze3124 {
-  0% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
+    margin-top: 20px;
+    height: 3em;
+    width: 12em;
+    background: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s ease;
   }
 
-  30% {
-    -webkit-transform: scale3d(1.25, 0.75, 1);
-    transform: scale3d(1.25, 0.75, 1);
+  .add-to-cart-btn:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.05);
   }
 
-  40% {
-    -webkit-transform: scale3d(0.75, 1.25, 1);
-    transform: scale3d(0.75, 1.25, 1);
+  .action-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
   }
 
-  50% {
-    -webkit-transform: scale3d(1.15, 0.85, 1);
-    transform: scale3d(1.15, 0.85, 1);
+  .action-links a {
+    background: #f1f1f1;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    font-weight: 500;
   }
 
-  65% {
-    -webkit-transform: scale3d(0.95, 1.05, 1);
-    transform: scale3d(0.95, 1.05, 1);
+  .action-links a:hover {
+    background: #007bff;
+    color: #fff;
   }
 
-  75% {
-    -webkit-transform: scale3d(1.05, 0.95, 1);
-    transform: scale3d(1.05, 0.95, 1);
+  .back-link {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+    transition: color 0.3s ease;
   }
 
-  100% {
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
+  .back-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
   }
-}
 
-  
+  @media (max-width: 768px) {
+    .product-detail {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .product-info {
+      align-items: center;
+    }
+
+    .product-info p {
+      text-align: center;
+    }
+  }
 </style>
 
 <div class="product-detail">
   <div class="product-image">
-    <!-- Em um site real, aqui iria uma tag <img> -->
-    [Imagem do {{ produto.nome }}]
+    {% if produto.imagem %}
+      <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+    {% else %}
+      <p>Sem imagem disponível</p>
+    {% endif %}
   </div>
+
   <div class="product-info">
     <h1>{{ produto.nome }}</h1>
     <p class="product-price">R$ {{ produto.preco }}</p>
     <p>{{ produto.descricao }}</p>
     <p><strong>Categoria:</strong> {{ produto.categoria.nome }}</p>
     <p><strong>Em estoque:</strong> {{ produto.estoque }} unidades</p>
-    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+
+    <button class="add-to-cart-btn">🛒 Adicionar ao Carrinho</button>
+
+    <div class="action-links">
+      <a href="{% url 'produto_update' pk=produto.pk %}">✏️ Editar Produto</a>
+      <a href="{% url 'produto_delete' pk=produto.pk %}">🗑️ Apagar Produto</a>
+    </div>
   </div>
 </div>
 
+<a class="back-link" href="{% url 'produto_list' %}">&laquo; Voltar para a lista de produtos</a>
 
-
-        <a href="{% url 'produto_update' pk=produto.pk %}">Editar Produto</a>
-        <a href="{% url 'produto_delete' pk=produto.pk %}">Apagar Produto</a>
-    
-
-
-
-<br />
-<a href="{% url 'produto_list' %}">&laquo; Voltar para a lista de produtos </a>
 {% endblock %}
