@@ -21,6 +21,11 @@ class ProdutoSerializer(serializers.ModelSerializer):
             'autor',
         ]
 
+        extra_kwargs = {
+            'categoria': {'write_only': True},
+            'autor': {'write_only': True},
+        }
+
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
