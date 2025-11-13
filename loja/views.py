@@ -6,6 +6,13 @@ from .forms import ProdutoForm , AutorForm
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from .serializers import ProdutoSerializer , CategoriaSerializer
+
 # Create your views here.
 
 def pagina_inicial(request):
@@ -171,3 +178,22 @@ class AutorDeleteView(LoginRequiredMixin,UserPassesTestMixin, DeleteView):
         return self.request.user.is_authenticated or (autor.usuario is None) or (self.request.user == autor.usuario) or self.request.user.is_superuser
 
 
+class ProdutoListAPIView(APIView):
+    def get(self, request, format=None):
+
+        produtos = Produto.objects.all()
+        
+        serializer = ProdutoSerializer(produtos, many=True)
+
+        return Response(serializer.data)
+    
+    def post(self, request, format=None):
+
+        serializer = ProdutoSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

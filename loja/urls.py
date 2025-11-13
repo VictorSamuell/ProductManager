@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ProdutoCreateView , ProdutoDetailView , ProdutoListView ,ProdutoUpdateView , ProdutoDeleteView , AutorListView , AutorCreateView , AutorDeleteView , AutorDetailView , AutorUpdateView
+from .views import ProdutoCreateView , ProdutoDetailView , ProdutoListView ,ProdutoUpdateView , ProdutoDeleteView , AutorListView , AutorCreateView , AutorDeleteView , AutorDetailView , AutorUpdateView , ProdutoListAPIView
 
 urlpatterns = [
 
@@ -60,5 +60,9 @@ urlpatterns = [
     path('autor/<int:pk>/editar/', AutorUpdateView.as_view(), name='autor_update'),
     path('autor/<int:pk>/apagar/', AutorDeleteView.as_view(), name='autor_delete'),
 
+
+    # API 
+
+    path('api/produtos/', ProdutoListAPIView.as_view(), name='api_produto_list'),
     
 ]
