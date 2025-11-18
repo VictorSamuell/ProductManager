@@ -1,11 +1,15 @@
 from rest_framework import serializers
 from .models import Produto , Categoria
+from django.contrib.auth.models import User
 
 class ProdutoSerializer(serializers.ModelSerializer):
     
     categoria = serializers.PrimaryKeyRelatedField(queryset=Categoria.objects.all())
     categoria_nome = serializers.StringRelatedField(source='categoria', read_only=True)
-    autor = serializers.StringRelatedField()
+    # autor = serializers.StringRelatedField()
+    usuario = serializers.PrimaryKeyRelatedField(source='User', read_only=True)
+    usuario_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(),source='User', write_only=True)
+
 
     class Meta:
         model = Produto
@@ -18,7 +22,8 @@ class ProdutoSerializer(serializers.ModelSerializer):
             'categoria_nome',
             'estoque',
             'imagem',
-            'autor',
+            'usuario',
+            'usuario_id'
         ]
 
         extra_kwargs = {
