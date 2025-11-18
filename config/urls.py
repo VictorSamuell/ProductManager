@@ -21,12 +21,19 @@ from loja import views
 from loja.views import RegistroView
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+router.register(r'produtos', views.ProdutoViewSet, basename='produto')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('loja/', include('loja.urls')),
-    path('contas/registro/', views.RegistroView.as_view(), name='register'),
     path('contas/', include('django.contrib.auth.urls')),
+
+    path('api/', include(router.urls)),
+
 ]
 
 

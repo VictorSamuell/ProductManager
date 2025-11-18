@@ -9,7 +9,11 @@ from django.urls import reverse_lazy
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status , generics , viewsets
+
+
+
+
 
 from .serializers import ProdutoSerializer , CategoriaSerializer
 
@@ -197,3 +201,19 @@ class ProdutoListAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# class ProdutoListAPI(generics.ListCreatedAPIView):
+#     queryset = Produto.objects.all()
+#     serializer_class = ProdutoSerializer
+
+# class ProdutoDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Produto.objects.all()
+#     serializer_class = ProdutoSerializer
+
+class ProdutoViewSet(viewsets.ModelViewSet):
+    queryset = Produto.objects.all()
+    serializer_class = ProdutoSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(autor=self.request.user)
