@@ -1,5 +1,17 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .views import (
+    ProdutoListView,
+    ProdutoDetailView,
+    ProdutoDeleteView,
+    ProdutoCreateView,
+    ProdutoUpdateView,
+    ProdutoListAPIView,
+    RegistroView,
+    ClienteDetailView,
+)
+
+
 
 urlpatterns = [
 
@@ -45,6 +57,32 @@ urlpatterns = [
 
     #
 
-    path("produto/<int:pk>/", views.ProdutoDetailView.as_view(), name="produto_detail"),
+    path("produto_list/<int:pk>/", ProdutoDetailView.as_view(), name="produto_detail"),
+
+    #
+
+    path("cliente_list/", views.clienteList, name="cliente_list"),
+
+    #
+
+    path("cliente_list/<int:pk>/", ClienteDetailView.as_view(), name="cliente_detail"),
+
+    # `admin` and project-level includes are handled in `config/urls.py`
+
+    # 
+    path('contas/registro/', RegistroView.as_view(), name = 'registro'),
+
+    path('contas/', include('django.contrib.auth.urls')),
+
+
+    path('cadastrar/', views.cadastrar_autor, name='cadastrar_autor'),
+    # Adicione outras URLs, como a de listagem de autores, se necessário
+
+    # removed duplicate and malformed admin/include entries
+
+    path('api/produtos/', ProdutoListAPIView.as_view(), name='api_produto_list_view'),
+
+    path('', ProdutoListView.as_view(), name='produto_list'),
+
 
 ]

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Produto, Categoria, Cliente, ItemPedido, Pedido
+from django.utils.html import format_html 
 
 @admin.action(description="Zerar estoque dos produtos selecionados")
 def zerarEstoque(modeladmin, request, queryset):
@@ -30,6 +31,30 @@ class ProdutoAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = ('valor_total_em_estoque',)
+
+    class ProdutoAdmin(admin.ModelAdmin):
+       list_display = ('nome', 'categoria', 'preco', 'estoque', 'display_imagem_thumb')
+       readonly_fields = {'display_imagem_preview',}
+
+       fieldsets = (
+           ('Informações básicas', {
+               'fields': ('nome', 'descricao', 'categoria', 'preco', 'estoque')
+           }),
+
+           ('Média', {
+               'fields': ('imagem', 'imagem_display_preview')
+           }),
+
+           ('Metadados',{
+               
+           })
+       )
+
+    @admin.display(description='Imagem')
+    def display_imagem_thumb(self, obj):
+        if obj.imagem:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.imagem.url)
+        return "(Sem imagem)"
 
 
     
@@ -84,5 +109,4 @@ class PedidoAdmin(admin.ModelAdmin):
     raw_id_fields = ('cliente',)
 
     actions = [marcar_como_pendente]
-
 

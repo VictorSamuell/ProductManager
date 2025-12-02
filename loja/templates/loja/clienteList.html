@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} {{ titulo_da_pagina }} {% endblock %}
+
+{% block content %}
+
+<h1>{{ titulo_da_pagina }}</h1>
+
+{% for cliente in clientes %}
+    <article>
+        <h3><a href="{% url 'cliente_detail' pk=cliente.pk %}">{{ cliente.nome }}</a></h3>
+        <p>Email : {{ cliente.email }}</p>
+        <p> Data Cadastro : {{ cliente.data_cadastro }}</p>
+        
+    </article>
+    <hr>
+
+{% empty %}
+    <p>Nenhum cliente disponível no momento.</p>
+
+{% endfor %}
+
+{% endblock %}

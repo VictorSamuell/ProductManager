@@ -1,6 +1,7 @@
 # loja/models.py
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Tabela 1: Cliente
 class Cliente(models.Model):
@@ -25,7 +26,13 @@ class Produto(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='produtos')
     estoque = models.PositiveIntegerField(default=0)
-
+    #------ Novo Campo
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL, #se o utilizador for apagado, o produto fica sem usuário
+        null=True,
+        blank=True
+    )
 
     def valor_total_em_estoque(self):
         return self.preco * self.estoque
@@ -33,6 +40,17 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+    
+
+    imagem = models.ImageField(
+        upload_to='produtos_imgs/',
+        null = True,
+        blank = True,
+        help_text = "Imagem de destaque do produto"
+    )
+
+    def __str__(self):
+        return self
 
 # Tabela 4: Pedido
 class Pedido(models.Model):
@@ -63,3 +81,11 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.quantidade} x {self.produto.nome} no Pedido {self.pedido.id}"
+
+class Autor(models.Model):
+    nome = models.CharField(max_length=200)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.nome
+    

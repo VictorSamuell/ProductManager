@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Confirmar Exclusão</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Tem a certeza que quer apagar o autor "{{ object.nome }}"?</p>
+        <button type="submit">Sim, tenho a certeza</button>
+    <a href="{% url 'autor_detail' pk=object.pk %}">Cancelar</a>
+    </form>
+{% endblock %}

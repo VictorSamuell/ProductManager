@@ -4,11 +4,11 @@
 
 {%block content %}
 <style>
-  .product-detail {
+  .autor-detail {
     display: flex;
     gap: 30px;
   }
-  .product-image {
+  .autor-image {
     flex: 1;
     max-width: 400px;
     text-align: center;
@@ -16,10 +16,10 @@
     padding: 20px;
     border-radius: 8px;
   }
-  .product-info {
+  .autor-info {
     flex: 2;
   }
-  .product-price {
+  .autor-price {
     font-size: 2em;
     color: #007bff;
     margin-bottom: 20px;
@@ -84,20 +84,25 @@
   
 </style>
 
-<div class="product-detail">
-  <div class="product-image">
+<div class="autor-detail">
+  <div class="autor-image">
     <!-- Em um site real, aqui iria uma tag <img> -->
-    [Imagem do {{ produto.nome }}]
+    [Imagem do {{ autor.nome }}]
   </div>
-  <div class="product-info">
-    <h1>{{ produto.nome }}</h1>
-    <p class="product-price">R$ {{ produto.preco }}</p>
-    <p>{{ produto.descricao }}</p>
-    <p><strong>Categoria:</strong> {{ produto.categoria.nome }}</p>
-    <p><strong>Em estoque:</strong> {{ produto.estoque }} unidades</p>
-    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+  <div class="autor-info">
+    <h1>{{ autor.nome }}</h1>
+    <p class="autor-price">{{ autor.email }}</p>
   </div>
 </div>
+
+
+
+        <a href="{% url 'autor_update' pk=autor.pk %}">Editar Autor</a>
+        <a href="{% url 'autor_delete' pk=autor.pk %}">Apagar Autor</a>
+    
+
+
+
 <br />
-<a href="{% url 'produto_list_fbv' %}">&laquo; Voltar para a lista de produtos </a>
+<a href="{% url 'autor_list' %}">&laquo; Voltar para a lista de Autor </a>
 {% endblock %}

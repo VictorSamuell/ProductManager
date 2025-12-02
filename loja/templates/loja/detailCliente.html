@@ -1,0 +1,64 @@
+{% extends "base.html" %} 
+
+{% block title %}{{ produto.nome }}{% endblock %} 
+
+{%block content %}
+<style>
+  .cliente-detail {
+    display: flex;
+    gap: 30px;
+  }
+  .cliente-info {
+    flex: 2;
+  }
+@keyframes squeeze3124 {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+  
+</style>
+
+<div class="cliente-detail">
+  <div class="cliente-info">
+    <h1>{{ cliente.nome }}</h1>
+    <p>{{ produto.descricao }}</p>
+    <p><strong> Email: </strong> {{ cliente.email }}</p>
+    <p><strong> Data de Cadastro: </strong> {{ cliente.data_cadastro }} unidades</p>
+  </div>
+</div>
+<br />
+<a href="{% url 'cliente_list' %}">&laquo; Voltar para a lista de clientes </a>
+{% endblock %}

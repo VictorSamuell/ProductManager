@@ -1,0 +1,18 @@
+<!-- templates/cadastrar_autor.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Autor</title>
+</head>
+<body>
+    <h1>Cadastrar Autor</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>
+  
